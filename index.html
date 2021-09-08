@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <title>Document</title>
+
+    <link rel="icon" href="/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="info_site">
+            <a target="_blank" class="coronavirus_en_peru_link" href="https://data.larepublica.pe/envivo-casos-confirmados-muertes-coronavirus-peru/">
+                <div class="coronavirus_en_peru">
+                    <div class="contenedor-titulo">
+                        <h3 class="titulo-covid">CORONAVIRUS</h3>
+                        <h3 class="subtitulo-covid">EN PERÚ</h3>
+                    </div>
+                    <div class="contenedor-status dos_elementos">
+                        <p><span>TOTAL POSITIVOS: </span><span id="total_positivos"></span><span id="incremento_positivos"></span></p>
+                        <p><span>FALLECIDOS: </span><span id="total_fallecidos"></span><span id="incremento_fallecidos"></span></p>
+                        <p><span>ALTAS HOSPITALARIAS: </span><span id="total_altas"></span><span id="incremento_altas"></span></p>
+                    </div>
+                </div>
+            </a>
+            <a target="_blank" class="vacunacion_en_peru_link" href="https://data.larepublica.pe/avance-vacunacion-covid-19-peru/">
+                <div class="vacunacion_en_peru">
+                    <div class="contenedor-titulo">
+                        <h3 class="titulo-covid">VACUNACIÓN</h3>
+                        <h3 class="subtitulo-covid">EN PERÚ</h3>
+                    </div>
+                    <div class="contenedor-status">
+                        <p style="color: yellow;"><span>VACUNACIÓN COMPLETA: </span><span id="vacunacion_completa"></span></p>
+                        <p><span>TOTAL DOSIS APLICADAS: </span><span id ="total_dosis1"></span></p>
+                        <p><span>DOSIS ÚLTIMO DÍA: </span><span id="ayer_total_dosis"></span></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <script src="https://d3js.org/d3.v4.js"></script>
+</body>
+<script>
+    d3.json("https://raw.githubusercontent.com/annaabsi/git-scraper-vacunacion/main/resultados/pongo_el_hombro.json", function (d) {
+        var completa = parseInt(d["vacunacion_completa"].replace(/,/g, ''));
+    var vacunacionCompleta = d3.select("#vacunacion_completa").append("span").text((completa).toLocaleString('id-ID'));
+        var totalDosisT = parseInt(d["total_dosis"].replace(/,/g, ''));
+    var totalDosis = d3.select("#total_dosis1").append("span").text((totalDosisT).toLocaleString('id-ID'));
+        var ultimo = parseInt(d["ayer_total_dosis"].replace(/,/g, ''));
+    var dosisUltimoDia = d3.select("#ayer_total_dosis").append("span").text((ultimo).toLocaleString('id-ID'));
+});
+
+    d3.json("https://raw.githubusercontent.com/annaabsi/git-scraper-covid19/main/resultados/covid.json", function (d) {
+        var positivos = parseInt(d["total_confirmados"]);
+    var totalPositivos = d3.select("#total_positivos").append("span").text((positivos).toLocaleString("de-DE"));
+    var incrementoPositivos = d3.select("#incremento_positivos").append("span").text(" (+"+d['ayer_confirmados'].toLocaleString("de-DE")+")");
+        var fallecidos = parseInt(d["total_fallecidos"]);
+    var totalFallecidos = d3.select("#total_fallecidos").append("span").text((fallecidos).toLocaleString("de-DE"));
+    var incrementoFallecidos = d3.select("#incremento_fallecidos").append("span").text(" (+"+d['ayer_fallecidos'].toLocaleString("de-DE")+")");
+        var altas = parseInt(d["total_altas"]);
+    var totalAltas = d3.select("#total_altas").append("span").text((altas).toLocaleString("de-DE"));
+    var incrementoAltas = d3.select("#incremento_altas").append("span").text(" (+"+d['ayer_altas'].toLocaleString("de-DE")+")");
+});
+</script>
+</html>
